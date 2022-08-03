@@ -14,3 +14,4 @@ libfontconfig1
 git
 sudo
 bzip2
+npm
