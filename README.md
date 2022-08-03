@@ -1,5 +1,8 @@
 # RobotSearch
 
+> **Note**
+> This is a lightly edited fork of the [original repo](https://github.com/ijmarshall/robotsearch).
+
 Welcome to RobotSearch, software for filtering RCTs from a search result as described in [our paper](https://doi.org/10.1002/jrsm.1287) in the Journal of Research Synthesis Methods.
 
 [Marshall I, Storr AN, Kuiper J, Thomas J, Wallace BC. Machine Learning for Identifying Randomized Controlled Trials: an evaluation and practitioner's guide. Res Syn Meth. 2018. https://doi.org/10.1002/jrsm.1287](https://doi.org/10.1002/jrsm.1287)
@@ -8,71 +11,38 @@ We offer RobotSearch free of charge, but we'd be most grateful if you would cite
 
 It also makes your methods transparent to your readers, and not least we'd love to see where RobotSearch is used! :)
 
-## The easy way
-
-For most people, we encourage you to use RobotSearch via [our website](https://robotsearch.vortext.systems).
-
-No need to install anything, simply upload your RIS files (Ovid or PubMed format), and instantly download the filtered version containing RCTs only.
-N.B. To ensure the highest accuracy, please make sure that your RIS files are exported with all the fields needed (see below for instructions for Ovid and Pubmed).
-
-![RobotSearch web screenshot](rsw.png)
-
-[RobotSearch online](https://robotsearch.vortext.systems)
-
-For those who are particularly technically minded, or have a pressing need to run the software on their own machines, read on...
-
-
 ## Installation instructions
 
-Currently this software runs from the Command Prompt (in Windows), or the Terminal (in Mac, or Linux).
+### Docker image (recommended)
 
-1. Before installing RobotSearch, you will need to install Python 3. We recommend that you use the MiniConda Python distribution (N.B. choose version 3.6 or higher). You can download this [here](https://conda.io/miniconda.html).
+1. To use the docker image you'll need to [install Docker](https://docs.docker.com/get-docker/)
+2. Pull the repo onto your machine, using whatever method you like for this.
+3. `cd` your way into the cloned repo.
+4. Build the docker image with `docker build -t robotsearch .`. Expect this to take a couple of minutes.
+5. Run the app with `./start.sh`. You don't need to run the docker image - `./start.sh` will take care of this.
+6. Navigate to [http://localhost:5000](http://localhost:5000) in your browser to use the app.
+7. When finished, use `docker stop robotsearch` to stop the container.
 
-2. Open up the Terminal (or Command Prompt in Windows). This is also how you will interact with RobotSearch when you use it.
+### Python package
 
-3. Install RobotSearch using the following command (easiest to copy/paste):
-	`pip install -U https://github.com/ijmarshall/robotsearch/archive/master.zip`
-
-4. RobotSearch should be automatically downloaded and installed on your machine. The software is >200MB in size, so this process may take some time depending on how fast your internet connection is.
-
-5. You should be ready to go!
-
-## The website
-
-We include the code for the online version also in this repository.
-The easiest way to run is via Docker.
-
-From within the code directory run:
-```
-docker build -t robotsearch
-```
-
-If the build is successful, you can then start the website locally by running:
-
-```
-./start.sh
-```
-
-You can then access the website on any webbrowser on your local machine at: http://localhost:5050.
-
-To stop the websever, run:
-```
-docker stop robotsearch
-```
+1. To use as a Python package you will need an install of conda. [Miniconda](https://docs.conda.io/en/latest/miniconda.html) is a good choice.
+2. Pull the repo onto your machine, using whatever method you like for this.
+3. `cd` your way into the cloned repo.
+4. Run `conda env create -f tmp/rs_env.yml` to create the environment with the required packages.
+5. Activate the conda environment `conda activate robotsearch`.
+6. Run `python setup.py install`.
+7. You should now be able to run `robotsearch path_to_ris` to convert files, or import as a module.
 
 ## How it works
 
 RobotSearch uses machine learning as an alternative to string-based study design filters.
 
-It works with MEDLINE searches exported from either PubMed or Ovid. 
+It works with MEDLINE searches exported from either PubMed or Ovid.
 
 1. You should conduct your search as normal (NB do not use any search terms or filters to restrict to RCTs at this stage!).
-
 2. Then export your results in RIS format (see more detailed instrutions below on how to do this in PubMed and Ovid)
-
 3. From the Command Prompt/Terminal, run the robotsearch command:
 `robotsearch my_file.ris`
-
 4. Your search results will be saved as `my_file_robotreviewer_RCTs.ris`
 
 ## Changing settings
@@ -82,7 +52,6 @@ By default, RobotSearch runs a *sensitive* search (i.e. very high likelihood tha
 To run a *precise* search (i.e. the retrieved articles have a very high likelihood of being RCTs, but at the expense of missing a tiny proportion), run with an extra `-p` flag, e.g.:
 
 `robotsearch my_file.ris -p`
-
 
 ## Exporting from PubMed
 
@@ -114,8 +83,7 @@ RobotSearch has a optional test mode, which runs through a standardised search r
 
 To run this, type:
 
-`robotsearch -t	`
-
+`robotsearch -t`
 
 ## Contributing/Using our machine learning in other tools
 
