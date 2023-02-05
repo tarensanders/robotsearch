@@ -20,7 +20,7 @@ It also makes your methods transparent to your readers, and not least we'd love 
 3. `cd` your way into the cloned repo.
 4. Build the docker image with `docker build -t robotsearch .`. Expect this to take a couple of minutes.
 5. Run the app with `./start.sh`. You don't need to run the docker image - `./start.sh` will take care of this.
-6. Navigate to [http://localhost:5000](http://localhost:5000) in your browser to use the app.
+6. Navigate to [http://localhost:5050](http://localhost:5050) in your browser to use the app.
 7. When finished, use `docker stop robotsearch` to stop the container.
 
 ### Python package
